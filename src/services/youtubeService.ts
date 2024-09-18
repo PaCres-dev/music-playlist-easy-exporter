@@ -1,5 +1,4 @@
 import { Track, YoutubeVideoSearchResponse } from "../types/types";
-import "dotenv/config";
 
 const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || "";
 const YOUTUBE_API_URL = "https://www.googleapis.com/youtube/v3";
