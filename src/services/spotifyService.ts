@@ -1,8 +1,8 @@
 import { SpotifyPlaylistTrackResponse, Track } from "../types/types";
 import "dotenv/config";
 
-const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID || "";
-const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET || "";
+const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID || "";
+const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET || "";
 
 const SPOTIFY_API_URL = "https://api.spotify.com/v1";
 
