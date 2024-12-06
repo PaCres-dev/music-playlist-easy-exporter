@@ -6,7 +6,7 @@ import { getVideoId } from "./services/youtubeService";
 
 function App() {
   const [playlistUrl, setPlaylistUrl] = useState("");
-  const [exportedPlaylist, setExportedPlaylist] = useState("");
+  const [exportedPlaylist, setExportedPlaylist] = useState<string[]>([]);
 
   const handlePlaylistUrl = (value: string) => {
     setPlaylistUrl(value);
@@ -31,11 +31,21 @@ function App() {
       })
     );
 
-    const youtubePlaylist = `https://www.youtube.com/watch_videos?video_ids=${youtubeTracks.join(
-      ","
-    )}`;
+    // Dividir la lista en fragmentos de 50 videos
+    const chunkedTracks = [];
+    for (let i = 0; i < youtubeTracks.length; i += 50) {
+      chunkedTracks.push(youtubeTracks.slice(i, i + 50));
+    }
 
-    setExportedPlaylist(youtubePlaylist);
+    console.log(chunkedTracks);
+
+    const youtubePlaylists = chunkedTracks.map((chunk) => {
+      return `https://www.youtube.com/watch_videos?video_ids=${chunk.join(
+        ","
+      )}`;
+    });
+
+    setExportedPlaylist(youtubePlaylists);
   };
 
   return (
@@ -55,13 +65,17 @@ function App() {
           Convert
         </button>
       </div>
-      {exportedPlaylist && (
-        <p>
-          YouTube playlist:{" "}
-          <a href={exportedPlaylist} target="_blank" rel="noopener noreferrer">
-            {exportedPlaylist}
-          </a>
-        </p>
+      {exportedPlaylist.length > 0 && (
+        <div>
+          <p>YouTube playlists:</p>
+          {exportedPlaylist.map((playlist, index) => (
+            <p key={index}>
+              <a href={playlist} target="_blank" rel="noopener noreferrer">
+                Playlist {index + 1}
+              </a>
+            </p>
+          ))}
+        </div>
       )}
     </div>
   );
